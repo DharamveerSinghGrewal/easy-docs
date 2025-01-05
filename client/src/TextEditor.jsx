@@ -19,8 +19,6 @@ export default function TextEditor() {
   new Quill(quillContainer, {theme: "snow"})
   },[])
 
-  return <div id="quillWrapper" ref={setupQuillDOM
-
-  }> </div>
+  return <div className="quillWrapper" ref={setupQuillDOM}> </div>
   
 }
