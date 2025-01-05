@@ -1,6 +1,7 @@
-import React, { useCallback} from 'react'
+import React, { useCallback, useEffect} from 'react'
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
+import {io} from "socket.io-client"
 
 const TOOLBAR_OPTIONS = [
 [{size: [ 'small', false, 'large', 'huge' ]}],
@@ -18,6 +19,15 @@ const TOOLBAR_OPTIONS = [
 
 ]
 export default function TextEditor() {
+
+  
+  useEffect(() =>{
+    const socket = io("http://localhost:3001")
+    return () =>{
+        socket.disconnect()
+    }
+  }, [])
+
   const setupQuillDOM
    = useCallback(quillWrapper=>{
   
