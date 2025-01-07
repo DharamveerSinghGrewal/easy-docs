@@ -24,15 +24,32 @@ export default function TextEditor() {
   const [quill, setQuill] = useState()
   const {id: documentId} = useParams();
 
-  useEffect(()=>{
-    if(socket == null || quill == null) return
-    const interval = setInterval(() =>{
-        socket.emit('save-document', quill.getContents())
-    }, SAVE_TIMER)
-    return () =>{
-        clearInterval(interval)
-    }
-  },[socket,quill])
+  useEffect(() => {
+    if (socket == null || quill == null) return;
+
+    
+    let timeoutId;
+
+    const handleTextChange = () => {
+        // Clear the previous debounce timer
+        clearTimeout(timeoutId);
+
+        // Set a new debounce timer
+        timeoutId = setTimeout(() => {
+            socket.emit("save-document", quill.getContents());
+        }, SAVE_TIMER);
+    };
+
+    // Listen for text-change events in Quill
+    quill.on("text-change", handleTextChange);
+
+    return () => {
+        // Cleanup: remove the listener and clear timeout on unmount
+        quill.off("text-change", handleTextChange);
+        clearTimeout(timeoutId);
+    };
+}, [socket, quill]);
+
   useEffect(() =>{
     const server = io("http://localhost:3001")
     setSocket(server)
