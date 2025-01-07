@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useState} from 'react'
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
 import {io} from "socket.io-client"
+import { useParams } from 'react-router-dom'
 
+const SAVE_TIMER = 2000
 const TOOLBAR_OPTIONS = [
 [{size: [ 'small', false, 'large', 'huge' ]}],
 [{font: []}],
@@ -13,8 +15,6 @@ const TOOLBAR_OPTIONS = [
 [{ 'indent': '-1'}, { 'indent': '+1' }], 
 [{align: []}],
 ["image", "blockquote", "code-block"],
-[{align: []}],
-["image", "blockquote", "code-block"],
 ["clean"],
 
 ]
@@ -22,6 +22,17 @@ export default function TextEditor() {
 
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
+  const {id: documentId} = useParams();
+
+  useEffect(()=>{
+    if(socket == null || quill == null) return
+    const interval = setInterval(() =>{
+        socket.emit('save-document', quill.getContents())
+    }, SAVE_TIMER)
+    return () =>{
+        clearInterval(interval)
+    }
+  },[socket,quill])
   useEffect(() =>{
     const server = io("http://localhost:3001")
     setSocket(server)
@@ -30,6 +41,15 @@ export default function TextEditor() {
     }
   }, [])
 
+  useEffect(() =>{
+        if(socket == null || quill == null) return
+
+        socket.once("load-document", document =>{
+            quill.setContents(document)
+            quill.enable()
+        })
+        socket.emit('get-document', documentId)
+  }, [socket, quill, documentId])
   useEffect(() => {
     if(socket ==null || quill == null) return
     const updateDocument = (delta) =>{
@@ -67,6 +87,8 @@ export default function TextEditor() {
 
   // Initialize Quill editor instance in the container with the "snow" theme
   const quill_instance = new Quill(quillContainer, {theme: "snow", modules: {toolbar: TOOLBAR_OPTIONS}})
+  quill_instance.disable()
+  quill_instance.setText("Loading Document. Please Wait...")
   setQuill(quill_instance)
   },[])
 
