@@ -32,7 +32,14 @@ io.on("connection", socket =>{
             await Document.findByIdAndUpdate(documentId, {data})
         })
     })
-    
+    socket.on("delete-document", async (documentId) => {
+        try {
+          await Document.findByIdAndDelete(documentId); // Remove from database
+          console.log(`Document ${documentId} deleted successfully.`);
+        } catch (error) {
+          console.error("Error deleting document:", error);
+        }
+      });
 })
 
 async function createOrLookUpDoc(id){
@@ -42,3 +49,4 @@ async function createOrLookUpDoc(id){
     if(document) return document
     return await Document.create({_id: id, data: initialValue})
 }
+

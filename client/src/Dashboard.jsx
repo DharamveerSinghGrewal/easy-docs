@@ -8,9 +8,11 @@ export default function Dashboard() {
       navigate(`/documents/${uuidV4()}`); // Navigate to the dynamic route
     };
     const [documents, setDocuments] = useState([]);
+    const [socket, setSocket] = useState();
+    
     useEffect(() => {
         const server = io("http://localhost:3001");
-    
+        setSocket(server);
         // Fetch list of documents
         server.emit("get-documents");
         server.on("documents-list", (docs) => {
@@ -24,7 +26,12 @@ export default function Dashboard() {
       const openDocument = (id) => {
         navigate(`/documents/${id}`); // Open existing document
       };
-
+      const deleteDocument = (id) => {
+        if (window.confirm("Are you sure you want to delete this document?")) {
+          socket.emit("delete-document", id);
+          setDocuments((prev) => prev.filter((doc) => doc._id !== id));
+        }
+      };
   return (
     <div className='dash_wrapper'>
     <div className='create_doc' onClick={handleCreateDoc}>
@@ -33,13 +40,24 @@ export default function Dashboard() {
 
     <div className='created_docs'>
 <h2>Documents History</h2>
-        <ul>
-          {documents.map((doc) => (
-            <li key={doc._id} onClick={() => openDocument(doc._id)}>
-              <div className="document_item">Document ID: {doc._id}</div>
-            </li>
-          ))}
-        </ul>
+<ul>
+  {documents.map((doc) => (
+    <li key={doc._id} className="document_item"
+        onClick={() => openDocument(doc._id)}>
+        Document ID: {doc._id}
+      <span
+        className="delete_text"
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent triggering the document opening
+          deleteDocument(doc._id);
+        }}
+      >
+        Delete
+      </span>
+    </li>
+  ))}
+</ul>
+
     </div>
     </div>
   )
