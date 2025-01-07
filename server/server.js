@@ -13,6 +13,14 @@ const io = require('socket.io')(3001, {
 
 const initialValue = ""
 io.on("connection", socket =>{
+      // Fetch all document IDs when requested
+      socket.on("get-documents", async () => {
+            const documents = await Document.find({}, "_id");
+            socket.emit("documents-list", documents); // Send list of document IDs
+        
+    });
+
+    //Fetch a single document and emit all its data
     socket.on('get-document', async documentId => {
         const document = await createOrLookUpDoc(documentId)
         socket.join(documentId)

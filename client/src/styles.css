@@ -8,7 +8,61 @@ body{
     justify-content: center;
 
 }
+.created_docs{
+  width: 100%;
+}
+.created_docs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
 
+.created_docs li {
+  width: 100%;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.created_docs li:hover {
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+
+.dash_wrapper{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.create_doc{
+  width: 2in;
+  min-height: 2.5in;
+  margin: 0.5in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  
+}
+
+.create_doc:hover{
+  cursor: pointer;
+  box-shadow: 0 4px 25px gray;
+}
+
+h2{
+  font-family: sans-serif;
+  font-weight: lighter;
+  color: gray;
+  font-size: medium;
+  text-align: center;
+}
  .quillWrapper .ql-editor{
   width: 8.5in;
   min-height: 11in;

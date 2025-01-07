@@ -4,14 +4,18 @@ import{BrowserRouter as Router,
   Route,
   Navigate,
 } from 'react-router-dom'
-import {v4 as uuidV4} from "uuid"
+
+import Dashboard from "./Dashboard"
 function App() {
 return (
 <Router>
   <Routes>
+  <Route path="/"
+  element={<Navigate to= "/dashboard"/>}
+  />
   <Route
-          path="/"
-          element={<Navigate to={`/documents/${uuidV4()}`} replace />}
+          path="/dashboard"
+          element={<Dashboard/>}
         />
      <Route path="/documents/:id" element={<TextEditor />} />
   </Routes>

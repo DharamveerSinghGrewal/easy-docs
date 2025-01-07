@@ -4,7 +4,7 @@ import "quill/dist/quill.snow.css"
 import {io} from "socket.io-client"
 import { useParams } from 'react-router-dom'
 
-const SAVE_TIMER = 2000
+const SAVE_TIMER = 1000
 const TOOLBAR_OPTIONS = [
 [{size: [ 'small', false, 'large', 'huge' ]}],
 [{font: []}],
@@ -23,7 +23,8 @@ export default function TextEditor() {
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
   const {id: documentId} = useParams();
-
+  
+  //save document data after every change
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -50,6 +51,7 @@ export default function TextEditor() {
     };
 }, [socket, quill]);
 
+//connect to the server
   useEffect(() =>{
     const server = io("http://localhost:3001")
     setSocket(server)
@@ -58,6 +60,7 @@ export default function TextEditor() {
     }
   }, [])
 
+  //load document data in the text editor
   useEffect(() =>{
         if(socket == null || quill == null) return
 
@@ -67,6 +70,8 @@ export default function TextEditor() {
         })
         socket.emit('get-document', documentId)
   }, [socket, quill, documentId])
+
+  //receive changes from the server and update document in real time
   useEffect(() => {
     if(socket ==null || quill == null) return
     const updateDocument = (delta) =>{
@@ -78,6 +83,7 @@ export default function TextEditor() {
     }
    }, [socket, quill])
 
+   //send data to the server whenever a user types
    useEffect(() => {
     if(socket ==null || quill == null) return
     const updateDocument = (delta, oldDelta, source) =>{
@@ -90,6 +96,8 @@ export default function TextEditor() {
         quill.off('text-change', updateDocument)
     }
    }, [socket, quill])
+
+ //set up quill text editor
   const setupQuillDOM
    = useCallback(quillWrapper=>{
   
