@@ -5,6 +5,7 @@ import "quill/dist/quill.snow.css"
 import {io} from "socket.io-client"
 import { useParams } from 'react-router-dom'
 import logo from "./assets/logo.png";
+import { BACKEND_URL } from './config';
 const SAVE_TIMER = 1000
 const TOOLBAR_OPTIONS = [
 [{size: [ 'small', false, 'large', 'huge' ]}],
@@ -73,7 +74,7 @@ export default function TextEditor() {
 
 //connect to the server
   useEffect(() =>{
-    const server = io("http://localhost:3001")
+    const server = io(BACKEND_URL)
     setSocket(server)
     return () =>{
         server.disconnect()

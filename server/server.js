@@ -6,8 +6,9 @@ require("dotenv").config();
 
 mongoose.connect(process.env.MONGO_URI, {})
 
+const PORT = process.env.PORT || 3001;
 //cors (cross origin request support) is used as server and client are on different ports
-const io = require('socket.io')(3001, {
+const io = require('socket.io')(PORT, {
     cors: {
         origin: "http://localhost:5173",
         methods: ["GET", "POST"],

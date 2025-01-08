@@ -5,6 +5,7 @@ import {io} from "socket.io-client";
 import logo from "./assets/logo.png";
 import doc_logo from "./assets/doc_logo.png";
 import del_logo from "./assets/delete.png";
+import { BACKEND_URL } from './config';
 export default function Dashboard() {
     const navigate = useNavigate();
     const handleCreateDoc = () => {
@@ -14,7 +15,7 @@ export default function Dashboard() {
     const [socket, setSocket] = useState();
     
     useEffect(() => {
-        const server = io("http://localhost:3001");
+        const server = io(BACKEND_URL);
         setSocket(server);
         // Fetch list of documents
         server.emit("get-documents");
