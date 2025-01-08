@@ -1,7 +1,11 @@
 //Mongo DB integration
 const mongoose = require("mongoose")
 const Document = require("./Document")
-mongoose.connect('mongodb://localhost/documents_database', {})
+
+require("dotenv").config();
+
+mongoose.connect(process.env.MONGO_URI, {})
+
 //cors (cross origin request support) is used as server and client are on different ports
 const io = require('socket.io')(3001, {
     cors: {
