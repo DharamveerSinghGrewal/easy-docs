@@ -15,7 +15,7 @@ const initialValue = ""
 io.on("connection", socket =>{
       // Fetch all document IDs when requested
       socket.on("get-documents", async () => {
-            const documents = await Document.find({}, "_id");
+            const documents = await Document.find({}, "name");
             socket.emit("documents-list", documents); // Send list of document IDs
         
     });
@@ -24,7 +24,7 @@ io.on("connection", socket =>{
     socket.on('get-document', async documentId => {
         const document = await createOrLookUpDoc(documentId)
         socket.join(documentId)
-        socket.emit('load-document', document.data)
+        socket.emit('load-document', document)
         socket.on("send-changes", delta => {
             socket.broadcast.to(documentId).emit("receive-changes", delta)
         })
@@ -40,6 +40,13 @@ io.on("connection", socket =>{
           console.error("Error deleting document:", error);
         }
       });
+      socket.on("change-title", async ({ documentId, title }) => { 
+        
+            await Document.findByIdAndUpdate(documentId, { name: title });
+           
+        
+        })
+      
 })
 
 async function createOrLookUpDoc(id){

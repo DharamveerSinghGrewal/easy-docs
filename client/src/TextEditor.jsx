@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 import Quill from 'quill'
 import "quill/dist/quill.snow.css"
 import {io} from "socket.io-client"
 import { useParams } from 'react-router-dom'
-
+import logo from "./assets/logo.png";
 const SAVE_TIMER = 1000
 const TOOLBAR_OPTIONS = [
 [{size: [ 'small', false, 'large', 'huge' ]}],
@@ -23,7 +24,26 @@ export default function TextEditor() {
   const [socket, setSocket] = useState()
   const [quill, setQuill] = useState()
   const {id: documentId} = useParams();
-  
+  const [title, setTitle] = useState("Untitled");
+  const [renameStatus, setRenameStatus] = useState(false);
+  const navigate = useNavigate();
+  const goToDashboard = () => {
+    navigate(`/dashboard`);
+  };
+  const changeTitle = () => {
+    
+    socket.emit("change-title",{documentId, title})
+    setRenameStatus(true);
+    setTimeout(() => setRenameStatus(false), 3000);
+  };
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+    if (renameStatus) {
+      setRenameStatus(false);
+    }
+  };
+
   //save document data after every change
   useEffect(() => {
     if (socket == null || quill == null) return;
@@ -64,9 +84,10 @@ export default function TextEditor() {
   useEffect(() =>{
         if(socket == null || quill == null) return
 
-        socket.once("load-document", document =>{
-            quill.setContents(document)
+        socket.once("load-document", (document) =>{
+            quill.setContents(document.data)
             quill.enable()
+            setTitle(document.name || "Untitled");
         })
         socket.emit('get-document', documentId)
   }, [socket, quill, documentId])
@@ -117,6 +138,18 @@ export default function TextEditor() {
   setQuill(quill_instance)
   },[])
 
-  return <div className="quillWrapper" ref={setupQuillDOM}> </div>
-  
+  return (
+    <div className='editor_wrapper'>
+    <div className="logo_wrapper">
+          <img src={logo} onClick={goToDashboard} alt="Logo" className="dashboard_logo" />
+          <input type="text" size="32" value={title} onChange={handleTitleChange} className='title'/>
+          <button className='rename_button' onClick={changeTitle}>Rename</button>
+          {renameStatus ? (
+  <span className="rename_success visible">Rename Successful</span>
+) : (
+  <span className="rename_success">Rename Successful</span>
+)}
+        </div>
+  <div className="quillWrapper" ref={setupQuillDOM}> </div>
+  </div>)
 }

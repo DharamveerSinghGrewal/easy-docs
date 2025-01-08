@@ -8,6 +8,59 @@ body{
     justify-content: center;
 
 }
+
+.rename_success {
+  color: #28a745; /* Green color for success */
+  font-size: 14px;
+  font-family: sans-serif;
+  visibility: hidden; /* Keep space reserved */
+}
+
+.rename_success.visible {
+  visibility: visible; /* Show message */
+}
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.title{
+  padding: 0.1in;
+  border-radius: 5px;
+  border: 1px solid rgb(201, 201, 201);
+  font-size: 20px;
+}
+.title:hover{
+  border: 1px solid navy;
+}
+.rename_button{
+  background-color: #007bff;
+  color: white;
+  padding: 0.1in;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.editor_wrapper{
+  margin-top: 0.2in;
+}
+.dashboard_header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.dashboard_header p {
+  font-size: 1rem;
+  font-family: sans-serif;
+  color: #555;
+}
 .created_docs{
   width: 100%;
 }
@@ -51,6 +104,39 @@ body{
 .delete_text:hover {
   text-decoration: underline;
 }
+.logo_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dashboard_logo {
+  width: 50px; 
+  height: auto;
+  cursor: pointer;
+}
+
+  .del_logo {
+    width: 50px; 
+    height: auto;
+    cursor: pointer; 
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  
+  .del_logo:hover {
+    transform: scale(1.2); 
+    filter: brightness(1.5);
+  }
+  
+
+.dashboard_header h1 {
+  font-size: 2.5rem;
+  font-family: sans-serif;
+  color: #222;
+  font-weight: bold;
+  margin: 0;
+}
 
 
 .dash_wrapper{
@@ -58,6 +144,7 @@ body{
   align-items: center;
   display: flex;
   flex-direction: column;
+  margin-top: 0.2in;
 }
 .create_doc{
   width: 2in;
@@ -69,12 +156,13 @@ body{
   background-color: #FFFFFF;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
-  
+  border-radius: 12px;
 }
 
 .create_doc:hover{
   cursor: pointer;
   box-shadow: 0 4px 25px gray;
+  transform: scale(1.05);
 }
 
 h2{
@@ -84,6 +172,7 @@ h2{
   font-size: medium;
   text-align: center;
 }
+
  .quillWrapper .ql-editor{
   width: 8.5in;
   min-height: 11in;
