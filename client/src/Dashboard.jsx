@@ -2,9 +2,9 @@ import {React, useEffect, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidV4 } from 'uuid';
 import {io} from "socket.io-client";
-import logo from "./assets/logo.png";
-import doc_logo from "./assets/doc_logo.png";
-import del_logo from "./assets/delete.png";
+import logo from "/logo.png";
+import doc_logo from "/doc_logo.png";
+import del_logo from "/delete.png";
 import { BACKEND_URL } from './config';
 export default function Dashboard() {
     const navigate = useNavigate();

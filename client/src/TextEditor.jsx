@@ -4,7 +4,7 @@ import Quill from 'quill'
 import "quill/dist/quill.snow.css"
 import {io} from "socket.io-client"
 import { useParams } from 'react-router-dom'
-import logo from "./assets/logo.png";
+import logo from "/logo.png";
 import { BACKEND_URL } from './config';
 const SAVE_TIMER = 1000
 const TOOLBAR_OPTIONS = [
