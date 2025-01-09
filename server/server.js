@@ -10,7 +10,10 @@ const PORT = process.env.PORT || 3001;
 //cors (cross origin request support) is used as server and client are on different ports
 const io = require('socket.io')(PORT, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: ["http://localhost:5173",
+            "https://easy-docs-ewopdoed6-dharamveer-singh-grewals-projects.vercel.app",
+      "https://easy-docs-tau.vercel.app",
+        ],
         methods: ["GET", "POST"],
     },
 
