@@ -17,6 +17,9 @@ Check out the live version of the application!
      - **Create** a new document.
      - **Edit** existing documents.
      - **Delete** any document.
+     ![Dashboard Screenshot](./assets/screenshots/dashboard.png)
+     ![Document Editing](./assets/screenshots/editing.png)
+     ![Delete Modal](./assets/screenshots/deletemodal.png)
 
 ### 2. **Unique Document URLs**
    - Each document is assigned a unique UUID (Universally Unique Identifier) upon creation.
