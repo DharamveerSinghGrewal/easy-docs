@@ -18,7 +18,7 @@ Check out the live version of the application!
      - **Edit** existing documents.
      - **Delete** any document.
      ![Dashboard Screenshot](./assets/screenshots/dashboard.png)
-     ![Document Editing](./assets/screenshots/editing.png)
+     ![Document Editing](./assets/screenshots/editor.png)
      ![Delete Modal](./assets/screenshots/deletemodal.png)
 
 ### 2. **Unique Document URLs**
@@ -28,6 +28,11 @@ Check out the live version of the application!
 ### 3. **Real-Time Collaboration**
    - Multiple users can edit the same document simultaneously.
    - Changes are synchronized in real-time using **Socket.IO** for seamless collaboration.
+     
+
+https://github.com/user-attachments/assets/9b295f95-253b-4b85-99ab-314ef568fae5
+
+
 
 ### 4. **Document Persistence**
    - Documents are stored in **MongoDB**, ensuring data is saved and retrieved efficiently.
