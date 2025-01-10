@@ -26,24 +26,30 @@ export default function TextEditor() {
   const [quill, setQuill] = useState()
   const {id: documentId} = useParams();
   const [title, setTitle] = useState("Untitled");
-  const [renameStatus, setRenameStatus] = useState(false);
   const navigate = useNavigate();
+  const [renameStatus, setRenameStatus] = useState(false);
   const goToDashboard = () => {
     navigate(`/dashboard`);
   };
-  const changeTitle = () => {
+  const changeTitle = (e) => {
     
-    socket.emit("change-title",{documentId, title})
+    setTitle(e.target.value); // Update the title dynamically
+    
+  };
+  const handleBlur = () => {
+    if (title.trim() === "") {
+      setTitle("Untitled"); // Reset to default only if the input is blank
+      socket.emit("change-title", { documentId, title: "Untitled" }); // Emit default title
+      
+    }
+    else{
+      socket.emit("change-title", { documentId, title: title }); // Emit updated title
+    }
     setRenameStatus(true);
-    setTimeout(() => setRenameStatus(false), 3000);
+    setTimeout(() => setRenameStatus(false), 1000);
   };
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-    if (renameStatus) {
-      setRenameStatus(false);
-    }
-  };
+
 
   //save document data after every change
   useEffect(() => {
@@ -140,12 +146,14 @@ export default function TextEditor() {
   },[])
 
   return (
-    <div className='editor_wrapper'>
-    <div className="logo_wrapper">
-          <img src={logo} onClick={goToDashboard} alt="Logo" className="dashboard_logo" />
-          <input type="text" size="32" value={title} onChange={handleTitleChange} className='title'/>
-          <button className='rename_button' onClick={changeTitle}>Rename</button>
-          {renameStatus ? (
+    <div>
+    <div className="header_wrapper">
+          <img src={logo} onClick={goToDashboard} alt="Logo" title='Go to Dashboard' className="back_button" />
+          <input type="text" size="32" maxLength="30" style={{
+    width: `${title.length + 1}ch`, 
+    minWidth: "4ch",
+  }} value={title} onChange={changeTitle} onBlur={handleBlur} className='title'/>
+  {renameStatus ? (
   <span className="rename_success visible">Rename Successful</span>
 ) : (
   <span className="rename_success">Rename Successful</span>
