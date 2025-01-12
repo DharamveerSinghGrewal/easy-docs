@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 3001;
 const io = require('socket.io')(PORT, {
     cors: {
         origin: ["http://localhost:5173",
-            "https://easy-docs-ewopdoed6-dharamveer-singh-grewals-projects.vercel.app",
-      "https://easy-docs-tau.vercel.app",
+            "https://easy-docs-3t6g8n50o-dharamveer-singh-grewals-projects.vercel.app",
+                 "https://easy-docs-psi.vercel.app"
         ],
         methods: ["GET", "POST"],
     },
