@@ -188,7 +188,7 @@ header p {
 }
 
 .quillWrapper .ql-editor {
-  width: auto;
+  width: 8.5in;
   min-height: 11in;
   background-color: #FFFFFF;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
