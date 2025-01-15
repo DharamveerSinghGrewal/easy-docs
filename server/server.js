@@ -1,23 +1,36 @@
 //Mongo DB integration
 const mongoose = require("mongoose")
 const Document = require("./Document")
+const express = require("express");
+const app = express();
+const http = require("http");
+
+// Health check route
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 require("dotenv").config();
 
 mongoose.connect(process.env.MONGO_URI, {})
 
 const PORT = process.env.PORT || 3001;
-//cors (cross origin request support) is used as server and client are on different ports
-const io = require('socket.io')(PORT, {
-    cors: {
-        origin: ["http://localhost:5173",
-            "https://easy-docs-3t6g8n50o-dharamveer-singh-grewals-projects.vercel.app",
-                 "https://easy-docs-psi.vercel.app"
-        ],
-        methods: ["GET", "POST"],
-    },
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: [
+      "http://localhost:5173",
+      "https://easy-docs-3t6g8n50o-dharamveer-singh-grewals-projects.vercel.app",
+        "https://easy-docs-psi.vercel.app"
+    ],
+    methods: ["GET", "POST"]
+  }
+});
 
-})
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
 
 const initialValue = ""
 io.on("connection", socket =>{
@@ -56,6 +69,7 @@ io.on("connection", socket =>{
         })
       
 })
+
 
 async function createOrLookUpDoc(id){
     if(id == null) return
