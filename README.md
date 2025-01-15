@@ -4,7 +4,7 @@ A **real-time collaborative text editor** built with modern web technologies to 
 
 ---
 
-[**Live Demo**](https://easy-docs-tau.vercel.app/)  
+[**Live Demo**](https://easy-docs-psi.vercel.app/)  
 Check out the live version of the application!
 
 ---
